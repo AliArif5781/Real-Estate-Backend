@@ -14,9 +14,7 @@ export const signup = async (req, res) => {
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
+      return res.status(400).json({ success: false, message: "Invalid email" });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -44,5 +42,44 @@ export const signup = async (req, res) => {
       .json({ success: true, message: "User signup successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required" });
+    }
+
+    const existingUser = await userModel.findOne({ email });
+
+    if (!existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Wrong Credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+    if (!isMatch) {
+      return res.json({ success: false, message: "Invalid Password" });
+    }
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    return res
+      .status(200)
+      .json({ success: true, message: "User Register Successfully" });
+  } catch (error) {
+    return res.status(200).json({ success: true, message: error.message });
   }
 };
