@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
   {
-    location: { type: String, required: true },
+    // location: { type: String, required: true },
     title: { type: String, required: true },
     price: { type: Number, required: true },
     address: { type: String, required: true },
@@ -16,11 +16,17 @@ const postSchema = new mongoose.Schema(
     property: { type: String, required: true },
     utilitiesPolicy: { type: String, required: true },
     petPolicy: { type: String, required: true },
-    incomePolicy: { type: String, required: true },
+    Kitchen: { type: Number, required: true },
     totalSize: { type: Number, required: true },
-    school: { type: String, required: true },
+    school: { type: Number, required: true },
     images: { type: [String], required: true },
-    //   previewImages: {type:String[], required:true},
+    previewImages: { type: [String], required: true },
+    BusStop: { type: Number, required: true },
+    Resturant: { type: Number, required: true },
+    LoadShedding: { type: String, required: false },
+    Water: { type: String, required: false },
+    Gas: { type: String, required: false },
+    Best: { type: String, required: false },
   },
   { timestamps: true }
 );
