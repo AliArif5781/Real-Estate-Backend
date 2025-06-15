@@ -64,6 +64,7 @@ export const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
+
     if (!isMatch) {
       return res.json({ success: false, message: "Invalid Password" });
     }
@@ -74,6 +75,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res
@@ -81,5 +83,27 @@ export const login = async (req, res) => {
       .json({ success: true, message: "User Register Successfully" });
   } catch (error) {
     return res.status(200).json({ success: true, message: error.message });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true, // Fixed typo from httpOnlly
+      // secure: process.env.NODE_ENV === "production", // Required for HTTPS
+      sameSite: "strict",
+      path: "/", // Important - must match cookie path
+      // domain: process.env.COOKIE_DOMAIN, // If using cross-subdomain cookies
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error during logout",
+    });
   }
 };
