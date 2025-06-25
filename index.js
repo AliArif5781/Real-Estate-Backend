@@ -1,4 +1,4 @@
-import expres from "express";
+import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { authenticateRoute } from "./routes/authenticateRoute.js";
@@ -7,11 +7,11 @@ import { userRoutes } from "./routes/authRoute.js";
 import { postRoute } from "./routes/postRoute.js";
 
 connectDB();
-const app = expres();
+const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cookieParser());
-app.use(expres.json());
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
