@@ -27,6 +27,9 @@ const postSchema = new mongoose.Schema(
     Water: { type: String, required: false },
     Gas: { type: String, required: false },
     Best: { type: String, required: false },
+    Hospital: { type: String, required: false },
+    Garden: { type: String, required: false },
+    Gym: { type: String, required: false },
   },
   { timestamps: true }
 );
