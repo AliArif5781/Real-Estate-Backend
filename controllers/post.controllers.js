@@ -3,7 +3,11 @@ import { postModel } from "../models/post.model.js";
 
 export const post = async (req, res) => {
   try {
-    const postData = req.body;
+    // const postData = req.body;
+    const postData = {
+      ...req.body,
+      user: req.userId,
+    };
     console.log("Received data:", postData); // Log incoming data
     const post = new postModel(postData);
     const savedPost = await post.save();
