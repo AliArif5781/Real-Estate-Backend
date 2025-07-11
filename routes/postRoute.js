@@ -11,10 +11,12 @@ import { userAuth } from "../middlewares/user.auth.js";
 
 export const postRoute = express.Router();
 
-postRoute.post("/post"
-  , userAuth,
+postRoute.post(
+  "/post",
+  userAuth,
   //  postLimiter
-  , post);
+  post
+);
 postRoute.get("/getPost", getAllPost);
 postRoute.get("/searchPost", getSearchPost);
 postRoute.get("/:id", getPostById);
