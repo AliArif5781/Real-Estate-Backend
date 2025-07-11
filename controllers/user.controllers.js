@@ -5,6 +5,7 @@ export const getUserData = async (req, res) => {
     const user = await userModel.findById(req.userId);
     // console.log(user, "user");
     // console.log(req.userId, "req.userId");
+    // console.log("data");
     if (!user) {
       return res
         .status(404)
