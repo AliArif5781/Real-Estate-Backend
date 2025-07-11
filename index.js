@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://real-estate-frontend-five-nu.vercel.app",
+      "real-estate-frontend-omega-mocha.vercel.app",
     ],
     credentials: true,
   })
