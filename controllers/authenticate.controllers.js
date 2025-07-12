@@ -27,9 +27,7 @@ export const signup = async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
       // // when we run this project on live server then it will run on https then it will be true, while running in local environment/development environment it will run on http it mean not secureit will be false, then make it true or false make env.
@@ -68,9 +66,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.json({ success: false, message: "Invalid Password" });
     }
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
       // secure: process.env.NODE_ENV === "production",
@@ -91,8 +87,8 @@ export const logoutUser = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true, // Fixed typo from httpOnlly
       // secure: process.env.NODE_ENV === "production", // Required for HTTPS
-      sameSite: "strict",
-      path: "/", // Important - must match cookie path
+      // sameSite: "strict",
+      // path: "/", // Important - must match cookie path
       // domain: process.env.COOKIE_DOMAIN, // If using cross-subdomain cookies
     });
 
