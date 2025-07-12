@@ -69,6 +69,8 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
+      secure: true, // Requires HTTPS
+      sameSite: "none", // Needed for cross-site cookies
       // secure: process.env.NODE_ENV === "production",
       // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       // path: "/",
