@@ -8,8 +8,16 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://real-estate-frontend-omega-mocha.vercel.app",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
   ]
 }
