@@ -24,7 +24,9 @@ export const post = async (req, res) => {
 
 export const getAllPost = async (req, res) => {
   try {
-    const getPost = await postModel.find();
+    const getPost = await postModel
+      .find()
+      .populate("user", "firstName lastName email");
     res.status(200).json({ success: true, data: getPost });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -130,7 +132,9 @@ export const getPostById = async (req, res) => {
       });
     }
 
-    const property = await postModel.findById(id);
+    const property = await postModel
+      .findById(id)
+      .populate("user", "firstName lastName email");
 
     if (!property) {
       return res.status(404).json({
