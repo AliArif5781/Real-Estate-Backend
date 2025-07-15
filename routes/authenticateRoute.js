@@ -4,6 +4,7 @@ import {
   signup,
   logoutUser,
 } from "../controllers/authenticate.controllers.js";
+import { userAuth } from "../middlewares/user.auth.js";
 
 export const authenticateRoute = express.Router();
 
