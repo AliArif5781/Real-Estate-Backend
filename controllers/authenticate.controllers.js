@@ -30,8 +30,8 @@ export const signup = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Enable in production
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjust for production
+      // secure: process.env.NODE_ENV === "production", // Enable in production
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjust for production
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days expiry example
     });
     return res
@@ -68,13 +68,14 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Enable in production
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjust for production
+      // secure: process.env.NODE_ENV === "production", // Enable in production
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjust for production
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days expiry example
     });
-    return res
-      .status(200)
-      .json({ success: true, message: "User Register Successfully" });
+    return res.status(200).json({
+      success: true,
+      message: "User Register Successfully",
+    });
   } catch (error) {
     return res.status(200).json({ success: true, message: error.message });
   }
