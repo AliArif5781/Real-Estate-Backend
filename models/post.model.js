@@ -30,6 +30,7 @@ const postSchema = new mongoose.Schema(
     Hospital: { type: String, required: false },
     Garden: { type: String, required: false },
     Gym: { type: String, required: false },
+    sold: { type: String, required: false },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
