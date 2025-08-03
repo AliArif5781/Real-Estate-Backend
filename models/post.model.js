@@ -35,6 +35,10 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
+    soldAt: { type: Date, required: false }, //
+    status: { type: String, required: false }, //
+    responseProperty: { type: String, required: false },
+    isSold: { type: String, required: false },
   },
   { timestamps: true }
 );
