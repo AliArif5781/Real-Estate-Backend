@@ -24,10 +24,11 @@ export const post = async (req, res) => {
 
 export const getAllPost = async (req, res) => {
   try {
-    const getPost = await postModel
-      .find()
-      .populate("user", "firstName lastName email");
-    res.status(200).json({ success: true, data: getPost });
+    const getPost = await postModel.find();
+    const postCount = getPost.length;
+    // console.log(postCount, "postCount");
+    // .populate("user", "firstName lastName email");
+    res.status(200).json({ success: true, data: getPost, count: postCount });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
