@@ -65,7 +65,10 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.json({ success: false, message: "Invalid Password" });
     }
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: existingUser._id, role: existingUser.role },
+      process.env.JWT_SECRET
+    );
     res.cookie("token", token, {
       httpOnly: true,
       // secure: process.env.NODE_ENV === "production", // Enable in production
