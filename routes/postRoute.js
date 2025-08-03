@@ -5,7 +5,6 @@ import {
   getSearchPost,
   post,
 } from "../controllers/post.controllers.js";
-import rateLimit from "express-rate-limit";
 import { postLimiter } from "../middlewares/rate.limit.js";
 import { userAuth } from "../middlewares/user.auth.js";
 
