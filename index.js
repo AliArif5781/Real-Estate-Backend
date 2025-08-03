@@ -5,6 +5,9 @@ import { authenticateRoute } from "./routes/authenticateRoute.js";
 import { connectDB } from "./config/mongo.db.js";
 import { userRoutes } from "./routes/authRoute.js";
 import { postRoute } from "./routes/postRoute.js";
+import { isAdmin } from "./middlewares/admin.auth.js";
+import { adminRoute } from "./routes/adminRoute.js";
+import { soldPropertyRoute } from "./routes/soldPropertyRoute.js";
 
 connectDB();
 const app = express();
@@ -34,6 +37,8 @@ app.get("", (req, res) => {
 app.use("/api/user", authenticateRoute);
 app.use("/api/user", userRoutes);
 app.use("/api", postRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/properties", soldPropertyRoute);
 
 app.listen(port, () => {
   console.log(`server running at port ${port}`);
