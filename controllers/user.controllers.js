@@ -19,9 +19,23 @@ export const getUserData = async (req, res) => {
         isAccountVerified: user.isAccountVerified,
         email: user.email,
         userId: user._id,
+        role: user.role,
       },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+export const getAllUserDetail = async (req, res) => {
+  try {
+    // const userDataLength = await userModel.countDocuments();
+    const getAllUsers = await userModel.find().select("-password");
+    const userDataLength = await userModel.countDocuments();
+    res
+      .status(200)
+      .json({ success: true, count: userDataLength, getAllUser: getAllUsers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
