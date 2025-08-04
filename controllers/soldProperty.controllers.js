@@ -43,12 +43,13 @@ export const sold = async (req, res) => {
 
 export const getSoldProperties = async (req, res) => {
   try {
+    // Only fetch properties that are still marked as sold
     const soldProperties = await postModel
-      .find({ status: "sold" })
-      .sort({ soldAt: -1 }) // Newest first
-      .populate("user", "name email") // Include seller info
+      .find({ status: "sold" }) // Only get properties with status:sold
+      .sort({ soldAt: -1 })
+      .populate("user", "name email")
       .lean();
-    console.log(soldProperties, "soldPRoperties");
+
     res.status(200).json({
       success: true,
       count: soldProperties.length,
@@ -66,24 +67,31 @@ export const getSoldProperties = async (req, res) => {
 export const responseSoldProperties = async (req, res) => {
   try {
     const { id } = req.params;
-    const { response } = req.body; // Destructure `response` from body
+    const { response } = req.body;
 
-    console.log(response, "responseSoldProperties"); // Should log 'accept' or 'decline'
+    // Different update operations for accept vs decline
+    const update =
+      response === "accept"
+        ? {
+            $unset: { status: 1 }, // Remove status field
+            responseProperty: "accepted",
+            isSold: true,
+            soldAt: null,
+          }
+        : {
+            $unset: { status: 1 },
+            responseProperty: "declined",
+            isSold: false,
+          };
 
-    const updatedProperty = await postModel.findByIdAndUpdate(
-      id,
-      {
-        responseProperty: response === "accept" ? "accepted" : "declined", // Update the field
-        isSold: response === "accept",
-      },
+    const updatedProperty = await postModel.findByIdAndUpdate(id, update, {
+      new: true,
+    });
 
-      { new: true }
-    );
-
-    console.log(updatedProperty.responseProperty, "updatedProperty"); // Should now show the updated value
-    res
-      .status(200)
-      .json({ success: true, responsePropertyData: updatedProperty });
+    res.status(200).json({
+      success: true,
+      property: updatedProperty,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
