@@ -39,6 +39,7 @@ const postSchema = new mongoose.Schema(
     status: { type: String, required: false }, //
     responseProperty: { type: String, required: false },
     isSold: { type: String, required: false },
+    showSoldTag: { type: Boolean, required: false },
   },
   { timestamps: true }
 );
