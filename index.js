@@ -29,11 +29,6 @@ app.get("", (req, res) => {
   res.send("api Workings");
 });
 
-// app.post("/api/posts", (req, res) => {
-//   console.log(req.body);
-//   res.json({ success: true });
-// });
-
 app.use("/api/user", authenticateRoute);
 app.use("/api/user", userRoutes);
 app.use("/api", postRoute);
