@@ -34,30 +34,6 @@ export const getAllPost = async (req, res) => {
   }
 };
 
-// export const getSearchPost = async (req, res) => {
-//   try {
-//     const { city, minPrice, maxPrice } = req.query;
-
-//     const query = {};
-
-//     if (city) {
-//       query.city = { $regex: city, $options: "i" }; // Case-insensitive search
-//     }
-
-//     if (minPrice || maxPrice) {
-//       query.price = {};
-//       if (minPrice) query.price.$gte = Number(minPrice);
-//       if (maxPrice) query.price.$lte = Number(maxPrice);
-//     }
-
-//     const getPost = await postModel.find(query);
-//     res.status(200).json({ success: true, data: getPost });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-// controllers/post.controllers.js
 export const getSearchPost = async (req, res) => {
   try {
     const { city, minPrice, maxPrice } = req.query;
@@ -158,55 +134,29 @@ export const getPostById = async (req, res) => {
   }
 };
 
-/*
-cache
+export const deleteProperty = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-import express from 'express';
-import NodeCache from 'node-cache';
+    const property = await postModel.findById(id);
 
-const app = express();
-const cache = new NodeCache({ stdTTL: 60 }); // Cache for 60 seconds
-
-// Middleware to check cache
-const checkCache = (req, res, next) => {
-  const { id } = req.params;
-  const cachedData = cache.get(id);
-  
-  if (cachedData) {
-    console.log('Serving from cache');
-    return res.json({ 
-      success: true, 
-      fromCache: true,
-      data: cachedData 
+    if (!property) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Property not found" });
+    }
+    await postModel.findByIdAndDelete(id);
+    console.log("Deleted Property ID:", id);
+    res.status(200).json({
+      success: true,
+      message: "Property deleted successfully",
+      deletedPropertyId: id,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error while deleting Property",
+      error: error.message,
     });
   }
-  next();
 };
-
-// Updated GET endpoint with caching
-app.get('/api/post/:id', checkCache, async (req, res) => {
-  try {
-    const property = await postModel.findById(req.params.id);
-    cache.set(req.params.id, property); // Cache the result
-    res.json({ success: true, fromCache: false, data: property });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-
-
-
-// In your property API service
-const cache = new Map();
-
-export const fetchPropertyById = async (id: string) => {
-  if (cache.has(id)) {
-    return cache.get(id);
-  }
-  
-  const response = await axios.get(`/api/post/${id}`);
-  cache.set(id, response.data);
-  return response.data;
-};
- */
