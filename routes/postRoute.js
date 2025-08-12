@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteProperty,
   getAllPost,
   getPostById,
   getSearchPost,
@@ -14,3 +15,4 @@ postRoute.post("/post", userAuth, postLimiter, post);
 postRoute.get("/getPost", getAllPost);
 postRoute.get("/searchPost", getSearchPost);
 postRoute.get("/:id", getPostById);
+postRoute.delete("/property/:id", deleteProperty);
