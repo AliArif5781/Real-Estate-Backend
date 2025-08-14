@@ -26,7 +26,7 @@ app.use(
 );
 
 app.get("", (req, res) => {
-  res.send("api Workings");
+  res.send("api Working");
 });
 
 app.use("/api/user", authenticateRoute);
