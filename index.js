@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://real-estate-frontend-rho-six.vercel.app",
+      "https://real-estate-frontend-khaki.vercel.app",
     ],
     credentials: true,
   })
